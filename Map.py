@@ -7,11 +7,13 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
 
+
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("untitled.ui", self)
         self.z = 15
+        self.theme = "dark"
         self.delta = 0.001
         self.ll = [37.530887, 55.703118]
         self.getImage()
@@ -20,7 +22,9 @@ class Example(QMainWindow):
         map_params = {
             "apikey": "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13",
             "ll": f'{self.ll[0]},{self.ll[1]}',
-            "z": self.z
+            "z": self.z,
+            "theme": self.theme
+
         }
         response = requests.get('https://static-maps.yandex.ru/v1?',params=map_params)
         if not response:
@@ -48,6 +52,10 @@ class Example(QMainWindow):
             self.ll[1] += self.delta * (17 - self.z)
         if event.key() == Qt.Key.Key_Down:
             self.ll[1] -= self.delta * (17 - self.z)
+        if event.key() == Qt.Key.Key_W:
+            self.theme = "light"
+        if event.key() == Qt.Key.Key_S:
+            self.theme = "dark"
         self.getImage()
 
 if __name__ == '__main__':
