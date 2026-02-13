@@ -5,9 +5,16 @@ import requests
 from PyQt6 import uic
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow
 
 class Example(QMainWindow):
+    def on_button_click(self):
+        self.theme = "light"
+        pass
+
+    def on_button_click1(self):
+        self.theme = "dark"
+        pass
     def __init__(self):
         super().__init__()
         uic.loadUi("untitled.ui", self)
@@ -15,6 +22,8 @@ class Example(QMainWindow):
         self.theme = "dark"
         self.delta = 0.001
         self.ll = [37.530887, 55.703118]
+        self.light.clicked.connect(self.on_button_click)
+        self.night.clicked.connect(self.on_button_click1)
         self.getImage()
 
     def getImage(self):
@@ -25,7 +34,7 @@ class Example(QMainWindow):
             "theme": self.theme
 
         }
-        response = requests.get('https://static-maps.yandex.ru/v1?',params=map_params)
+        response = requests.get('https://static-maps.yandex.ru/v1?', params=map_params)
         if not response:
             print("Ошибка выполнения запроса:")
             print("Http статус:", response.status_code, "(", response.reason, ")")
